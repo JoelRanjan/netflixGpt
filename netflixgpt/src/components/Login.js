@@ -1,7 +1,22 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { validateData } from "../utils/validate";
 
 const Login = () => {
   const [isNewUser, setIsNewUser] = useState(false);
+  const [errmsg, setErrmsg] = useState(null);
+  const email = useRef(null);
+  const password = useRef(null);
+  const fullName = useRef(null);
+
+  const signUpBtn = () => {
+    let errmsg = validateData(email.current.value, password.current.value);
+    setErrmsg(errmsg);
+  };
+
+  const signInBtn = () => {
+    let errmsg = validateData(email.current.value, password.current.value);
+    setErrmsg(errmsg);
+  };
 
   const toggleSignBtn = () => {
     setIsNewUser(!isNewUser);
@@ -22,7 +37,12 @@ const Login = () => {
         alt="logo"
         className="absolute"
       />
-      <form className="absolute bg-black m-56 ml-[500px] bg-opacity-70 p-14 rounded-lg">
+      <form
+        className="absolute bg-black m-56 ml-[500px] bg-opacity-70 p-14 rounded-lg"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         {isNewUser ? (
           <h1 className=" px-4 py-2 font-extrabold text-white text-2xl">
             Sign Up
@@ -35,32 +55,42 @@ const Login = () => {
         {isNewUser && (
           <div>
             <input
+              ref={fullName}
               type="text"
               placeholder="Enter Full Name"
-              className="px-4 py-2 m-4 bg-transparent border border-white bg-slate-950 bg-opacity-80"
+              className="px-4 py-2 m-4 bg-transparent border border-white bg-slate-950 bg-opacity-80 text-white"
             />
             <br />
           </div>
         )}
         <input
+          ref={email}
           type="text"
           placeholder="Enter Email"
-          className="px-4 py-2 m-4 bg-transparent border border-white bg-slate-950 bg-opacity-80"
+          className="px-4 py-2 m-4 bg-transparent border border-white bg-slate-950 bg-opacity-80  text-white"
         />
 
         <br />
         <input
+          ref={password}
           type="password"
           placeholder="Enter Password"
-          className="px-4 py-2 m-4 bg-transparent border border-white  bg-slate-950 bg-opacity-80"
+          className="px-4 py-2 m-4 bg-transparent border border-white  bg-slate-950 bg-opacity-80  text-white"
         />
         <br />
+        <p className="text-red-600">{errmsg}</p>
         {isNewUser ? (
-          <button className="px-4 py-1 m-3 text-white bg-red-600 w-[220px]">
+          <button
+            className="px-4 py-1 m-3 text-white bg-red-600 w-[220px]"
+            onClick={signUpBtn}
+          >
             Sign Up
           </button>
         ) : (
-          <button className="px-4 py-1 m-3 text-white bg-red-600 w-[220px]">
+          <button
+            className="px-4 py-1 m-3 text-white bg-red-600 w-[220px]"
+            onClick={signInBtn}
+          >
             Sign In
           </button>
         )}
