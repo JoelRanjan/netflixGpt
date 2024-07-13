@@ -1,9 +1,19 @@
 import React, { useRef, useState } from "react";
 import { validateData } from "../utils/validate";
+import { auth } from "../utils/fireBase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isNewUser, setIsNewUser] = useState(false);
   const [errmsg, setErrmsg] = useState(null);
+  const navigate = useNavigate();
+  const dispatcher = useDispatch();
   const email = useRef(null);
   const password = useRef(null);
   const fullName = useRef(null);
@@ -11,11 +21,52 @@ const Login = () => {
   const signUpBtn = () => {
     let errmsg = validateData(email.current.value, password.current.value);
     setErrmsg(errmsg);
+
+    if (errmsg) return;
+
+    createUserWithEmailAndPassword(
+      auth,
+      email.current.value,
+      password.current.value
+    )
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        dispatcher(addUser(user));
+        navigate("/browse");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrmsg(errorMessage);
+        dispatcher(removeUser());
+        navigate("/");
+      });
   };
 
   const signInBtn = () => {
     let errmsg = validateData(email.current.value, password.current.value);
     setErrmsg(errmsg);
+
+    if (errmsg) return;
+
+    signInWithEmailAndPassword(
+      auth,
+      email.current.value,
+      password.current.value
+    )
+      .then((userCredential) => {
+        const user = userCredential.user;
+        // dispatcher(addUser(user));
+        navigate("/browse");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrmsg(errorMessage);
+        // dispatcher(removeUser());
+        navigate("/");
+      });
   };
 
   const toggleSignBtn = () => {
