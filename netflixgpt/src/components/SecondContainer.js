@@ -11,6 +11,8 @@ const SecondContainer = () => {
     (store) => store.movies.popularMovies.results
   );
 
+  const upPopularMovies = popularMoviesL ? popularMoviesL.slice(2) : [];
+
   const topRatedMoviesL = useSelector(
     (store) => store.movies.topRatedMovies.results
   );
@@ -18,19 +20,19 @@ const SecondContainer = () => {
   const upcomingMoviesL = useSelector(
     (store) => store.movies.upcomingMovies.results
   );
-  console.log(topRatedMoviesL);
+  const updatedUpcomingMovies = popularMoviesL ? popularMoviesL.slice(2) : [];
   return (
     <div className="relative z-10 top-[700px] bg-black w-screen pl-4">
       <div>
         <MoviesList movieList={nowPlayingMovies} title={"Your Next Watch"} />
         {popularMoviesL && (
-          <MoviesList movieList={popularMoviesL} title={"Popular"} />
+          <MoviesList movieList={upPopularMovies} title={"Popular"} />
         )}
         {topRatedMoviesL && (
           <MoviesList movieList={topRatedMoviesL} title={"Top Rated"} />
         )}
         {upcomingMoviesL && (
-          <MoviesList movieList={upcomingMoviesL} title={"Upcoming"} />
+          <MoviesList movieList={updatedUpcomingMovies} title={"Upcoming"} />
         )}
       </div>
     </div>

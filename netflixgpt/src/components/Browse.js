@@ -22,13 +22,10 @@ const Browse = () => {
   const mainMovie = getMoviesList[0];
 
   return (
-    <div className=" bg-black">
+    <div className="bg-black ">
       <div className="relative">
         <Header />
         <MainContainer mainMovie={mainMovie} />
-      </div>
-
-      <div className="">
         <SecondContainer />
       </div>
     </div>

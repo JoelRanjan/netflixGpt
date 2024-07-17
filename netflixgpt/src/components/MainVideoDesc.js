@@ -2,7 +2,7 @@ import React from "react";
 
 const MainVideoDesc = ({ title, overview }) => {
   return (
-    <div className="absolute z-10 pt-[250px] text-white px-6 bg-gradient-to-r from-black w-screen aspect-video ">
+    <div className="absolute z-10 pt-[250px] text-white px-10 bg-gradient-to-r from-black w-screen aspect-video ">
       <h1 className="text-2xl font-bold">{title}</h1>
       <p className="w-1/4 mt-4">{overview}</p>
       <div className="flex mt-4">
