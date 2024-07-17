@@ -8,6 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
+import Header from "./Header";
 
 const Login = () => {
   const [isNewUser, setIsNewUser] = useState(false);
@@ -31,16 +32,13 @@ const Login = () => {
     )
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
         dispatcher(addUser(user));
-        navigate("/browse");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         setErrmsg(errorMessage);
         dispatcher(removeUser());
-        navigate("/");
       });
   };
 
@@ -76,11 +74,12 @@ const Login = () => {
   return (
     <div className="relative ">
       <div className="absolute bg-gradient-to-b from-black z-10 w-full">
-        <img
+        {/* <img
           className=" h-32 w-52  z-10"
           src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
           alt="net"
-        />
+        /> */}
+        <Header />
       </div>
 
       <img

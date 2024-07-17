@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Popup from "reactjs-popup";
-import { getAuth, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/fireBase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice";
 
 const Header = () => {
-  const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate();
-
-  const toggleOptions = () => {
-    setShowOptions(!showOptions);
-  };
+  const dispatch = useDispatch();
 
   const userSignOut = () => {
     signOut(auth)
@@ -22,8 +20,22 @@ const Header = () => {
       });
   };
 
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName } = user;
+        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+        navigate("/browse");
+      } else {
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+    return () => unSubscribe();
+  }, []);
+
   return (
-    <div className="flex justify-between m-3">
+    <div className="absolute flex justify-between m-3 z-20 w-screen pr-10">
       <div>
         <img
           className=" h-12 w-28"
@@ -32,11 +44,6 @@ const Header = () => {
         />
       </div>
       <div className="">
-        {/* <img
-          src="https://occ-0-2040-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABeuqjuQsRgqEDlibtJTI5BMf8IxhLlLOeIT6xI4TL57mqv7XHja43gx02S8pZVe8JNGRQXjnrUk1VcsTXqi83tFKPI6OR3k.png?r=bd7"
-          alt="logo"
-          onClick={toggleOptions}
-        /> */}
         <div>
           <Popup
             trigger={
@@ -50,7 +57,10 @@ const Header = () => {
             position="bottom center"
           >
             <ul>
-              <li className="w-20 cursor-pointer" onClick={userSignOut}>
+              <li
+                className="w-20 cursor-pointer text-white"
+                onClick={userSignOut}
+              >
                 Sign out
               </li>
             </ul>
