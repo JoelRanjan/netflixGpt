@@ -3,8 +3,9 @@ import Popup from "reactjs-popup";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/fireBase";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
+import { changeLang } from "../utils/langSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,6 +19,12 @@ const Header = () => {
       .catch((error) => {
         // An error happened.
       });
+  };
+
+  const loggedUser = useSelector((store) => store.user);
+
+  const onLangChange = (e) => {
+    dispatch(changeLang(e.target.value));
   };
 
   useEffect(() => {
@@ -35,7 +42,7 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="absolute flex justify-between m-3 z-20 w-screen pr-10">
+    <div className="absolute flex justify-between p-3 z-20 w-screen pr-10 bg-gradient-to-b from-black">
       <div>
         <img
           className=" h-12 w-28"
@@ -43,28 +50,51 @@ const Header = () => {
           alt="net"
         />
       </div>
-      <div className="">
-        <div>
-          <Popup
-            trigger={
-              <button>
-                <img
-                  src="https://occ-0-2040-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABeuqjuQsRgqEDlibtJTI5BMf8IxhLlLOeIT6xI4TL57mqv7XHja43gx02S8pZVe8JNGRQXjnrUk1VcsTXqi83tFKPI6OR3k.png?r=bd7"
-                  alt="logo"
-                />
-              </button>
-            }
-            position="bottom center"
+      <div className="flex">
+        <div className="mr-4">
+          <p className="text-red-600 font-semibold mb-1 ">Change Language</p>
+          <select
+            onChange={onLangChange}
+            className="ml-8 px-3 rounded-lg bg-black text-white"
           >
-            <ul>
-              <li
-                className="w-20 cursor-pointer text-white"
-                onClick={userSignOut}
+            <option className="rounded-lg" value={"english"}>
+              English
+            </option>
+            <option className="rounded-lg" value={"hindi"}>
+              Hindi
+            </option>
+            <option className="rounded-lg" value={"telugu"}>
+              Telugu
+            </option>
+          </select>
+        </div>
+        <div className="">
+          {loggedUser ? (
+            <div>
+              <Popup
+                trigger={
+                  <button>
+                    <img
+                      src="https://occ-0-2040-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABeuqjuQsRgqEDlibtJTI5BMf8IxhLlLOeIT6xI4TL57mqv7XHja43gx02S8pZVe8JNGRQXjnrUk1VcsTXqi83tFKPI6OR3k.png?r=bd7"
+                      alt="logo"
+                    />
+                  </button>
+                }
+                position="bottom center"
               >
-                Sign out
-              </li>
-            </ul>
-          </Popup>
+                <ul>
+                  <li
+                    className="w-20 cursor-pointer text-white"
+                    onClick={userSignOut}
+                  >
+                    Sign out
+                  </li>
+                </ul>
+              </Popup>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
