@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { changeLang } from "../utils/langSlice";
+import { togglePage } from "../utils/togglePageSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -22,9 +23,14 @@ const Header = () => {
   };
 
   const loggedUser = useSelector((store) => store.user);
+  const gptPage = useSelector((store) => store.gpt.showGptPage);
 
   const onLangChange = (e) => {
     dispatch(changeLang(e.target.value));
+  };
+
+  const togglePageOut = () => {
+    dispatch(togglePage());
   };
 
   useEffect(() => {
@@ -52,7 +58,28 @@ const Header = () => {
       </div>
       <div className="flex">
         <div className="mr-4">
-          <p className="text-red-600 font-semibold mb-1 ">Change Language</p>
+          {loggedUser ? (
+            gptPage ? (
+              <button
+                className="bg-red-600 text-white px-3 py-1rounded-lg "
+                onClick={togglePageOut}
+              >
+                GPT Page
+              </button>
+            ) : (
+              <button
+                className="bg-red-600 text-white px-3 py-1 rounded-lg"
+                onClick={togglePageOut}
+              >
+                Home Page
+              </button>
+            )
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="mr-4">
+          <p className="text-white font-semibold mb-1 ">Change Language</p>
           <select
             onChange={onLangChange}
             className="ml-8 px-3 rounded-lg bg-black text-white"
