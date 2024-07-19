@@ -8,5 +8,5 @@ export const options = {
 };
 
 export const imgUrl = "https://image.tmdb.org/t/p/w500";
-export const openAiKey =
-  "sk-proj-oIuwES93qGvCQPFGcWxcT3BlbkFJzaI6c3pQFJievSVKqNdf";
+// export const openAiKey =
+//   "sk-proj-oIuwES93qGvCQPFGcWxcT3BlbkFJzaI6c3pQFJievSVKqNdf";
