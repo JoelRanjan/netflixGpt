@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useRef } from "react";
+import openai from "../utils/openai";
+import { openAiKey } from "../utils/constants";
 
 const GptPage = () => {
+  const [searchItem] = useRef(null);
+
+  console.log(openAiKey);
+
+  const searchInput = async () => {
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [{ role: "user", content: "top 10 hindi movies" }],
+      model: "gpt-3.5-turbo",
+    });
+
+    console.log(chatCompletion);
+  };
+
   return (
     <div>
       <div className="absolute ">
@@ -12,11 +27,15 @@ const GptPage = () => {
       </div>
       <div className="absolute m-60 mt-36 ml-[400px]">
         <input
+          ref={searchItem}
           type="text"
           className="w-[450px] h-8 rounded-lg opacity-85 bg-black text-white px-3"
           placeholder="  Search Here...."
         />
-        <button className="bg-red-600 text-white px-4 m-2 h-8 rounded-lg">
+        <button
+          className="bg-red-600 text-white px-4 m-2 h-8 rounded-lg"
+          onClick={searchInput}
+        >
           Search
         </button>
       </div>
