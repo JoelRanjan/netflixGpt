@@ -29,12 +29,12 @@ const Browse = () => {
       <div className="relative">
         <Header />
         {gptPage ? (
+          <GptPage />
+        ) : (
           <>
             <MainContainer mainMovie={mainMovie} />
             <SecondContainer />
           </>
-        ) : (
-          <GptPage />
         )}
       </div>
     </div>

@@ -60,12 +60,14 @@ const Login = () => {
         const user = userCredential.user;
         // dispatcher(addUser(user));
         navigate("/browse");
+        // email.current.value = null;
+        // password.current.value = null;
+        // fullName.current.value = null;
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         setErrmsg(errorMessage);
-        // dispatcher(removeUser());
         navigate("/");
       });
   };

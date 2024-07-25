@@ -64,14 +64,14 @@ const Header = () => {
                 className="bg-red-600 text-white px-3 py-1rounded-lg "
                 onClick={togglePageOut}
               >
-                GPT Page
+                HOME Page
               </button>
             ) : (
               <button
                 className="bg-red-600 text-white px-3 py-1 rounded-lg"
                 onClick={togglePageOut}
               >
-                Home Page
+                GPT Page
               </button>
             )
           ) : (
